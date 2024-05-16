@@ -47,6 +47,50 @@ fun main() {
     calcularSueldo(bonoEspecial = 20.00, sueldo=10.00, tasa=14.00)
 
 
+    //Uso de clases
+    val sumaUno = Suma(1,2)
+    val sumaDos = Suma(null, 1)
+    val sumaTres = Suma(1, null)
+    val sumaCuatro = Suma(null, null)
+    sumaUno.sumar()
+    sumaDos.sumar()
+    sumaTres.sumar()
+    sumaCuatro.sumar()
+    println(Suma.pi)
+    println(Suma.elevarAlCuadrado(2))
+    println(Suma.historialSumas)
+
+    //Arreglos
+    //Arreglo Estatico
+    val arregloEstatico: Array<Int> = arrayOf<Int>(1,2,3)
+    println(arregloEstatico)
+    //Arreglo Dinamico
+    val arregloDinamico: ArrayList<Int> = arrayListOf<Int>(1,2,3,4,5,6,7,9,10)
+    println(arregloDinamico)
+
+    println(arregloDinamico.add(11))
+    println(arregloDinamico.add(12))
+    println(arregloDinamico)
+
+    //Operadores
+    //For each Iterar el arreglo
+    val respuestaForEach: Unit = arregloDinamico
+        .forEach { valorActual: Int ->
+            println("Valor actual: ${valorActual}")
+        }
+    // "It" es el valor por defecto significa ese elemento
+    arregloDinamico.forEach{ println("Valor actual con it: ${it}") }
+
+    //MAP modifica el arreglo
+    val respuestaMap: List<Double> = arregloDinamico
+        .map { valorActual: Int ->
+            return@map valorActual.toDouble() + 100.00
+        }
+    println(respuestaMap)
+    val respuestaMap2 = arregloDinamico.map { it + 15 }
+    println(respuestaMap2)
+
+
 }
 
 fun imprimirNombre(nombre: String): Unit {
@@ -118,6 +162,28 @@ class Suma(
         this.soyPublicoExplicito
         soyPublicoImplicito // this. OPCIONAL (propiedades, metodos)
     }
+
+    constructor(
+        uno: Int?,
+        dos: Int
+    ):this(
+        if(uno == null) 0 else uno,
+        dos
+    )
+    constructor(
+        uno: Int,
+        dos: Int?
+    ):this(
+        uno,
+        if(dos == null) 0 else dos,
+    )
+    constructor(
+        uno: Int?,
+        dos: Int?
+    ):this(
+        if(uno == null) 0 else uno,
+        if(dos == null) 0 else dos,
+    )
 
     fun sumar(): Int {
         val total = numeroUno + numeroDos

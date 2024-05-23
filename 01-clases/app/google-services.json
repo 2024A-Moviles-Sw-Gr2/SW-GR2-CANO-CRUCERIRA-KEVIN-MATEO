@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "922395652538",
+    "project_id": "kmcc-2024a-sw-gr2",
+    "storage_bucket": "kmcc-2024a-sw-gr2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922395652538:android:1b27d78a0edd91f62e6d83",
+        "android_client_info": {
+          "package_name": "com.example.a2024aswgr2cckm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg2jyadBX0-BswLZ9xmwH-otmMfClCJpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

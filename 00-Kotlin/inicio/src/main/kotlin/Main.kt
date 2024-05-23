@@ -65,7 +65,7 @@ fun main() {
     val arregloEstatico: Array<Int> = arrayOf<Int>(1,2,3)
     println(arregloEstatico)
     //Arreglo Dinamico
-    val arregloDinamico: ArrayList<Int> = arrayListOf<Int>(1,2,3,4,5,6,7,9,10)
+    val arregloDinamico: ArrayList<Int> = arrayListOf<Int>(1,2,3,4,5,6,7,8,9,10)
     println(arregloDinamico)
 
     println(arregloDinamico.add(11))
@@ -89,6 +89,46 @@ fun main() {
     println(respuestaMap)
     val respuestaMap2 = arregloDinamico.map { it + 15 }
     println(respuestaMap2)
+
+    //Filter Filtra el arreglo
+    val respuestaFilter: List<Int> = arregloDinamico
+        .filter { valorActual: Int ->
+            val mayoresACinco: Boolean = valorActual > 5
+            return@filter mayoresACinco
+        }
+
+    val respuestaFilterDos = arregloDinamico.filter { it <= 5 }
+    println(respuestaFilter)
+    println(respuestaFilterDos)
+
+    // OR AND
+    // OR -> ANY ALGUNO CUMPLE?
+    // AND -> ALL TODOS CUMPLEN?
+    val respuestaAny: Boolean = arregloDinamico
+        .any { valorActual: Int ->
+            return@any valorActual > 5
+        }
+    println(respuestaAny) // true
+    val respuestaAll: Boolean = arregloDinamico
+        .all { valorActual: Int ->
+            return@all valorActual > 5
+        }
+    println(respuestaAll) // false
+
+    //Reduce Acumula el valor
+    // Valor acumulado = 0 siempre empieza en 0 en kotlin
+    // [1,2,3,4,5] -> Acumular SUMAR estos valores del arreglo
+    // valorIteracion1 = valorEmpieza + 1 = 0 + 1 = 1 -> Iteracion1
+    // valorIteracion2 = valorAcumuladoIteracion1 + 2 = 1 + 2 = 3 -> Iteracion2
+    // valorIteracion3 = valorAcumuladoIteracion2 + 3 = 3 + 3 = 6 -> Iteracion3
+    // valorIteracion4 = valorAcumuladoIteracion3 + 4 = 6 + 4 = 10 -> Iteracion4
+    // valorIteracion5 = valorAcumuladoIteracion4 + 5 = 10 + 5 = 15 -> Iteracion5
+    val respuestaReduce: Int = arregloDinamico
+        .reduce { acumulado: Int, valorActual: Int ->
+            return@reduce (acumulado + valorActual)
+        }
+    println(respuestaReduce)
+
 
 
 }

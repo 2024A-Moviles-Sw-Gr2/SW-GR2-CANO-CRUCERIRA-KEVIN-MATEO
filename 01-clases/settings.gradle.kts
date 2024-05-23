@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "2024ASWGR2CCKM"
 include(":app")
- 
+include(":app")

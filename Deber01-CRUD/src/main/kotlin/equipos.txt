@@ -1,0 +1,4 @@
+1,Barcelona FC,Mon Jan 01 00:00:00 ECT 1900,Barcelona,false
+2,Real Madrid,Mon Jan 01 00:00:00 ECT 1900,Madrid,true
+1,Barcelona FC,Mon Jan 01 00:00:00 ECT 1900,Barcelona,false
+2,Real Madrid,Mon Jan 01 00:00:00 ECT 1900,Madrid,true

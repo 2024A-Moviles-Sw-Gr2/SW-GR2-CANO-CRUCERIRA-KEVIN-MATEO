@@ -30,12 +30,7 @@ class ACicloVida : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val botonCicloVida = findViewById<Button>(
-            R.id.btn_ciclo_vida
-        )
-        botonCicloVida.setOnClickListener{
-                irActividad(ACicloVida::class.java)
-        }
+        mostrarSnackbar("on create")
     }
 
     override fun onStart() {
@@ -68,10 +63,20 @@ class ACicloVida : AppCompatActivity() {
         mostrarSnackbar("onDestroy")
     }
 
-    fun irActividad(
-        clase: Class<*>
-    ) {
-        val intent = Intent(this,clase)
-        startActivity(intent)
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState
+            .run{
+                putString("variableTextoGuardado", textoGlobal)
+            }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val textoRecuperadoDeVariable: String? = savedInstanceState.getString("variableTextoGuardadi")
+        if (textoRecuperadoDeVariable != null){
+            mostrarSnackbar(textoRecuperadoDeVariable)
+            textoGlobal = textoRecuperadoDeVariable
+        }
     }
 }

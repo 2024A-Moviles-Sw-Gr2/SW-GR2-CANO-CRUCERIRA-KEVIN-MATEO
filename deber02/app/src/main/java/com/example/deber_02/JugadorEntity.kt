@@ -4,16 +4,18 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class JugadorEntity (
-    var id:Int,
-    var nombre: String,
-    var edad: Int,
-    var altura: Double
+    val id: Int,
+    val nombre: String,
+    val edad: Int,
+    val altura: Double,
+    val equipoId: Int
 ): Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString().toString(),
         parcel.readInt(),
-        parcel.readDouble()
+        parcel.readDouble(),
+        parcel.readInt()
     ) {
     }
 
@@ -26,6 +28,7 @@ class JugadorEntity (
         parcel.writeString(nombre)
         parcel.writeInt(edad)
         parcel.writeDouble(altura)
+        parcel.writeInt(equipoId)
     }
 
     override fun describeContents(): Int {

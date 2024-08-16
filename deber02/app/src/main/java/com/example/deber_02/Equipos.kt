@@ -4,15 +4,16 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -22,27 +23,19 @@ import androidx.core.view.WindowInsetsCompat
 
 class Equipos : AppCompatActivity() {
 
+    var id_jugador = 0
+
     val callbackFormularioEquipo=registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){
         result ->
         if (result.resultCode == Activity.RESULT_OK) {
             if (result.data != null) {
-                val equipoModificado = result.data!!.getParcelableExtra<EquipoEntity>("equipoModificado")
-                val equipoNuevo = result.data!!.getParcelableExtra<EquipoEntity>("eequipoNuevo")
-
-                if (equipoModificado != null) {
-                    Memoria.equipos.removeAt(index)
-                    Memoria.equipos.add(index, equipoModificado)
-                }else if(equipoNuevo != null ){
-                    Memoria.equipos.add(equipoNuevo)
-                }
-
                 val listView = findViewById<ListView>(R.id.list_equipo)
                 val adaptador = ArrayAdapter(
                     this,
                     android.R.layout.simple_list_item_1,
-                    Memoria.equipos
+                    Database.tables!!.getEquipos()
                 )
                 listView.adapter = adaptador
                 adaptador.notifyDataSetChanged()
@@ -59,33 +52,42 @@ class Equipos : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        Log.d("EquiposActivity", "Equipos iniciales: ${Memoria.equipos}")
-        //colocar daots en la lista
+
+        val jugador = intent.getStringExtra("materia")
+        id_jugador = intent.getIntExtra("id", 0)
+
+        if (jugador != null) {
+            findViewById<TextView>(R.id.id_nombre_jugador).setText(jugador)
+        }
+
+
+        //Colocar datos en Lista
         val listView = findViewById<ListView>(R.id.list_equipo)
         val adaptador = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
-            Memoria.equipos
+            Database.tables!!.getEquipos()
         )
         listView.adapter = adaptador
         adaptador.notifyDataSetChanged()
 
-        //Botones
-        val botonCrearEquipo = findViewById<Button>(
+        //Uso de Botones
+        val btnCrearEstudiante = findViewById<Button>(
             R.id.id_btn_crear_equipo
         )
-        botonCrearEquipo.setOnClickListener{
+        btnCrearEstudiante.setOnClickListener {
             crearEquipo()
         }
         registerForContextMenu(listView)
     }
 
-    private fun crearEquipo(){
+    private fun crearEquipo() {
         val intentCrear = Intent(
             this,
             activity_beditar_equipo::class.java
         )
 
+        intentCrear.putExtra("id_jugador", id_jugador)  // Usa intentCrear aquí
         callbackFormularioEquipo.launch(intentCrear)
     }
 
@@ -106,55 +108,62 @@ class Equipos : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+        return when (item.itemId) {
             R.id.id_mi_editar_equipo -> {
                 val intentEditar = Intent(
                     this,
                     activity_beditar_equipo::class.java
                 )
-                intentEditar.putExtra("equipo", Memoria.equipos.get(index))
+                val equipos = Database.tables!!.getEquipos()
+                intentEditar.putExtra("equipo", equipos[index])
                 callbackFormularioEquipo.launch(intentEditar)
 
-                return true
+                true
             }
-            R.id.id_mi_eliminar_equipo->{
-
-                val listView = findViewById<ListView>(R.id.list_equipo)
-                val adaptador = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    Memoria.equipos
-                )
-                listView.adapter = adaptador
-                abrirDialogo(index, adaptador)
-                return true
+            R.id.id_mi_eliminar_equipo -> {
+                abrirDialogo(index)
+                true
             }
-            R.id.id_mi_ver_jugadores->{
-                val equipoSeleccionado = Memoria.equipos.get(index)
-                Log.d("EquiposActivity", "Equipo seleccionado: $equipoSeleccionado")
-                Log.d("EquiposActivity", "Jugadores en el equipo: ${equipoSeleccionado.jugadores}")
+            R.id.id_mi_ver_jugadores -> {
+                val equipoSeleccionado = Database.tables!!.getJugadoresPorEquipo(index)
 
                 val intent = Intent(this, activity_bjugadores::class.java)
                 intent.putExtra("equipo", equipoSeleccionado)
                 startActivity(intent)
                 return true
             }
+            R.id.id_mi_ver_ubicacionEstadio -> {
+                val ubicacion = Database.tables!!.getEquipos()[index].ubicacionEstadio
+
+                val intent = Intent(this, FMapActivity::class.java)
+                intent.putExtra("ubicacio", ubicacion)
+                startActivity(intent)
+
+                true
+            }
             else -> super.onContextItemSelected(item)
         }
     }
 
-    private fun abrirDialogo(index:Int, adapter: ArrayAdapter<EquipoEntity>){
+    private fun abrirDialogo(index: Int) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea Eliminar?")
         builder.setPositiveButton(
             "Aceptar",
-            DialogInterface.OnClickListener{
-                    dialog, which ->
-                Memoria.equipos.removeAt(index)
-                adapter.notifyDataSetChanged()
+            DialogInterface.OnClickListener { dialog, which ->
+                Database.tables!!.eliminarEquipo(index + 1)
+                val listView = findViewById<ListView>(R.id.list_equipo)
+                val adaptador = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    Database.tables!!.getEquipos()
+                )
+                listView.adapter = adaptador
+                adaptador.notifyDataSetChanged()
             }
         )
         builder.setNegativeButton("Cancelar", null)
         builder.create().show()
     }
+
 }

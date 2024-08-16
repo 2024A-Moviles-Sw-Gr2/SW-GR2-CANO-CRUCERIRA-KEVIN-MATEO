@@ -5,4 +5,12 @@
     <string name="eliminar" translatable="false">Eliminar</string>
     <string name="guardar" translatable="false">Guardar</string>
     <string name="view_subjects" translatable="false">Ver Jugadores</string>
+    <string-array name="ubicaciones">
+        <item>Spotify Camp Nou</item>
+        <item>Santiago Bernabéu</item>
+        <item>Parque De Los Príncipes</item>
+        <item>Etihad Stadium</item>
+        <item>Allianz Arena</item>
+        <item>Estadio Juventus</item>
+    </string-array>
 </resources>

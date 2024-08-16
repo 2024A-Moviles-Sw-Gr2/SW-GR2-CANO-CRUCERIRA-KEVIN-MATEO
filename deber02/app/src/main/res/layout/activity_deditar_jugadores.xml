@@ -12,19 +12,28 @@
         android:layout_width="292dp"
         android:layout_height="48dp"
         android:hint="Altura"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/spiner_equipos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.402" />
+
+    <Spinner
+        android:id="@+id/spiner_equipos"
+        android:layout_width="273dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_save_mat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_altura_jugador"
+        app:layout_constraintVertical_bias="0.530" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_nombre_jugador"
         android:layout_width="292dp"
         android:layout_height="48dp"
         android:hint="Nombre jugador"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/input_altura_jugador"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,21 +46,21 @@
         android:text="@string/guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spiner_equipos"
         app:layout_constraintVertical_bias="0.63" />
 
     <EditText
         android:id="@+id/input_edad_jugador"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="24dp"
         android:ems="10"
         android:inputType="text"
         android:text="edad"
         app:layout_constraintBottom_toTopOf="@+id/input_altura_jugador"
-        app:layout_constraintTop_toBottomOf="@+id/input_nombre_jugador"
-        tools:layout_editor_absoluteX="82dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_nombre_jugador" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

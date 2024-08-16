@@ -9,30 +9,30 @@ class EquipoEntity (
     var nombre: String,
     var fechaCreacion: String,
     var ciudad: String,
-    var jugadores: MutableList<Int>?
+    var ubicacionEstadio: String
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readArrayList(Int::class.java.classLoader) as MutableList<Int>
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
     ) {}
-
-    override fun toString(): String {
-        return nombre
-    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(nombre)
         parcel.writeString(fechaCreacion)
         parcel.writeString(ciudad)
-        parcel.writeList(jugadores)
+        parcel.writeString(ubicacionEstadio)
     }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return nombre
     }
 
     companion object CREATOR : Parcelable.Creator<EquipoEntity> {
@@ -44,4 +44,5 @@ class EquipoEntity (
             return arrayOfNulls(size)
         }
     }
+
 }
